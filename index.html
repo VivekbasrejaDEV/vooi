@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vooi Voyager - Navigate the DeFi Galaxy</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* CSS Variables for Theme */
+        :root {
+            --bg-primary: #0a0f1d;
+            --bg-secondary: #141b2d;
+            --accent-cyan: #00f6ff;
+            --accent-blue: #2563eb;
+            --accent-green: #10b981;
+            --accent-red: #ff3b30;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(0, 246, 255, 0.2);
+        }
+
+        /* Body and Main Container */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Main App Container */
+        .voyager-app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 1.5rem 2rem;
+            background: rgba(20, 27, 45, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        /* Logo Styles */
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        /* CTA Button in Header */
+        .cta-button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            border: none;
+            border-radius: 8px;
+            color: var(--bg-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 246, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 246, 255, 0.5);
+        }
+
+        /* Main Content Area */
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Control Panel Styles */
+        .control-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .control-panel h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+            text-align: center;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Select Dropdown Styles */
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:hover,
+        select:focus {
+            border-color: var(--accent-cyan);
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 246, 255, 0.2);
+        }
+
+        /* Range Slider Styles */
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: var(--bg-primary);
+            border-radius: 5px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 246, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            box-shadow: 0 0 20px rgba(0, 246, 255, 0.8);
+            transform: scale(1.1);
+        }
+
+        .leverage-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            font-size: 1.25rem;
+        }
+
+        /* Launch Button Styles */
+        #launch-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            border: none;
+            border-radius: 8px;
+            color: var(--bg-primary);
+            font-weight: 700;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 246, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #launch-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 30px rgba(0, 246, 255, 0.5);
+        }
+
+        #launch-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Animation Canvas Styles */
+        #animation-canvas {
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center, rgba(0, 246, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+                var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            min-height: 500px;
+        }
+
+        /* Stars Background Effect */
+        #animation-canvas::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent);
+            background-size: 200px 200px;
+            background-repeat: repeat;
+            opacity: 0.3;
+            animation: stars-twinkle 10s linear infinite;
+        }
+
+        @keyframes stars-twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.1; }
+        }
+
+        /* Start and Destination Points */
+        #start-point,
+        #destination-point {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            z-index: 10;
+        }
+
+        #start-point {
+            top: 50%;
+            left: 50px;
+            transform: translateY(-50%);
+            background: radial-gradient(circle, var(--accent-cyan), rgba(0, 246, 255, 0.3));
+            box-shadow: 0 0 30px rgba(0, 246, 255, 0.5);
+        }
+
+        #start-point::after {
+            content: 'START';
+            color: var(--bg-primary);
+        }
+
+        #destination-point {
+            top: 50%;
+            right: 50px;
+            transform: translateY(-50%);
+            background: radial-gradient(circle, var(--accent-green), rgba(16, 185, 129, 0.3));
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+        }
+
+        #destination-point::after {
+            content: 'GOAL';
+            color: var(--bg-primary);
+        }
+
+        /* DEX Node Styles */
+        .dex-node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            z-index: 8;
+            cursor: pointer;
+        }
+
+        /* Position DEX nodes in a strategic layout */
+        #dex-gmx {
+            top: 20%;
+            left: 35%;
+        }
+
+        #dex-mux {
+            top: 70%;
+            left: 35%;
+        }
+
+        #dex-hyperliquid {
+            top: 45%;
+            left: 55%;
+        }
+
+        #dex-dydx {
+            top: 20%;
+            left: 70%;
+        }
+
+        /* DEX Node Status Styles */
+        .dex-node.scanning {
+            animation: pulse-scan 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse-scan {
+            0%, 100% { 
+                box-shadow: 0 0 10px rgba(0, 246, 255, 0.5);
+                border-color: var(--accent-cyan);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(0, 246, 255, 0.8);
+                border-color: var(--accent-cyan);
+            }
+        }
+
+        .dex-node.suboptimal {
+            border-color: var(--accent-red);
+            background: rgba(255, 59, 48, 0.1);
+            box-shadow: 0 0 20px rgba(255, 59, 48, 0.5);
+        }
+
+        .dex-node.optimal {
+            border-color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+            animation: optimal-glow 1s ease-in-out infinite;
+        }
+
+        @keyframes optimal-glow {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 50px rgba(16, 185, 129, 1);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Spaceship Styles */
+        #spaceship {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid var(--accent-cyan);
+            filter: drop-shadow(0 0 10px rgba(0, 246, 255, 0.8));
+            z-index: 15;
+            transition: filter 0.3s ease;
+            opacity: 0;
+        }
+
+        #spaceship.active {
+            opacity: 1;
+        }
+
+        /* SVG Path Lines */
+        #path-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .path-line {
+            fill: none;
+            stroke-width: 2;
+            opacity: 0.3;
+            stroke-dasharray: 5, 5;
+            transition: all 0.5s ease;
+        }
+
+        .path-line.neutral {
+            stroke: var(--text-secondary);
+        }
+
+        .path-line.analyzing {
+            stroke: var(--accent-cyan);
+            opacity: 0.6;
+            animation: dash-flow 2s linear infinite;
+        }
+
+        @keyframes dash-flow {
+            to {
+                stroke-dashoffset: -10;
+            }
+        }
+
+        .path-line.suboptimal {
+            stroke: var(--accent-red);
+            opacity: 0.4;
+            stroke-dasharray: none;
+        }
+
+        .path-line.optimal {
+            stroke: var(--accent-green);
+            opacity: 1;
+            stroke-width: 3;
+            stroke-dasharray: none;
+            filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.8));
+        }
+
+        /* Scanner Effect */
+        .scanner {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--accent-cyan), 
+                transparent
+            );
+            box-shadow: 0 0 20px var(--accent-cyan);
+            opacity: 0;
+        }
+
+        /* Results Modal */
+        #results-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 15, 29, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #results-modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        #results-modal.visible .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-content p {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .modal-content .highlight {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .modal-buttons button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-share {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-share:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 246, 255, 0.3);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: var(--bg-primary);
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 246, 255, 0.5);
+        }
+
+        /* Loading State */
+        .loading-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .control-panel {
+                order: 2;
+            }
+
+            #animation-canvas {
+                order: 1;
+                min-height: 400px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .modal-content {
+                padding: 2rem;
+            }
+
+            .modal-content h3 {
+                font-size: 1.5rem;
+            }
+
+            /* Adjust DEX node positions for mobile */
+            .dex-node {
+                width: 60px;
+                height: 60px;
+                font-size: 0.75rem;
+            }
+
+            #start-point,
+            #destination-point {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Hidden class utility */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="voyager-app">
+        <!-- Header Section -->
+        <header>
+            <div class="logo">VOOI VOYAGER</div>
+            <button class="cta-button">Trade on Vooi</button>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <h2>Plan Your Voyage</h2>
+                
+                <div class="form-group">
+                    <label for="asset-select">Asset</label>
+                    <select id="asset-select">
+                        <option value="ETH">ETH</option>
+                        <option value="BTC">BTC</option>
+                        <option value="SOL">SOL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="direction-select">Direction</label>
+                    <select id="direction-select">
+                        <option value="Long">Long</option>
+                        <option value="Short">Short</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="leverage-slider">Leverage</label>
+                    <div class="range-container">
+                        <input type="range" id="leverage-slider" min="1" max="50" value="10">
+                        <span class="leverage-value">10x</span>
+                    </div>
+                </div>
+
+                <button id="launch-button" disabled>Scan & Launch Voyage</button>
+            </div>
+
+            <!-- Animation Canvas -->
+            <div id="animation-canvas">
+                <!-- Scanner effect -->
+                <div class="scanner"></div>
+                
+                <!-- SVG for path lines -->
+                <svg id="path-lines" width="100%" height="100%"></svg>
+                
+                <!-- Start and Destination points -->
+                <div id="start-point"></div>
+                <div id="destination-point"></div>
+                
+                <!-- DEX Nodes -->
+                <div class="dex-node" id="dex-gmx">GMX</div>
+                <div class="dex-node" id="dex-mux">MUX</div>
+                <div class="dex-node" id="dex-hyperliquid">HL</div>
+                <div class="dex-node" id="dex-dydx">dYdX</div>
+                
+                <!-- Spaceship -->
+                <div id="spaceship"></div>
+            </div>
+        </main>
+
+        <!-- Results Modal -->
+        <div id="results-modal" class="hidden">
+            <div class="modal-content">
+                <h3>Voyage Complete!</h3>
+                <p>
+                    Vooi's AI selected the optimal route via 
+                    <span class="highlight">Hyperliquid Protocol</span>, 
+                    saving you an estimated 
+                    <span class="highlight">$12.45</span> 
+                    in fees and slippage.
+                </p>
+                <div class="modal-buttons">
+                    <button class="btn-share">Share</button>
+                    <button class="btn-reset">Try Another Voyage</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // ============================
+            // DOM Element References
+            // ============================
+            const launchButton = document.getElementById('launch-button');
+            const leverageSlider = document.getElementById('leverage-slider');
+            const leverageValue = document.querySelector('.leverage-value');
+            const resultsModal = document.getElementById('results-modal');
+            const resetButton = document.querySelector('.btn-reset');
+            const shareButton = document.querySelector('.btn-share');
+            const canvas = document.getElementById('animation-canvas');
+            const pathSvg = document.getElementById('path-lines');
+            const spaceship = document.getElementById('spaceship');
+            const scanner = document.querySelector('.scanner');
+            
+            // Get all DEX nodes
+            const dexNodes = {
+                gmx: document.getElementById('dex-gmx'),
+                mux: document.getElementById('dex-mux'),
+                hyperliquid: document.getElementById('dex-hyperliquid'),
+                dydx: document.getElementById('dex-dydx')
+            };
+            
+            const startPoint = document.getElementById('start-point');
+            const destinationPoint = document.getElementById('destination-point');
+            
+            // ============================
+            // Initialization
+            // ============================
+            
+            // Enable launch button after a brief delay (simulating loading)
+            setTimeout(() => {
+                launchButton.disabled = false;
+                launchButton.textContent = 'Scan & Launch Voyage';
+            }, 1500);
+            
+            // ============================
+            // Event Listeners
+            // ============================
+            
+            // Update leverage display when slider changes
+            leverageSlider.addEventListener('input', function(e) {
+                leverageValue.textContent = e.target.value + 'x';
+            });
+            
+            // Launch button click handler
+            launchButton.addEventListener('click', launchVoyage);
+            
+            // Reset button click handler
+            resetButton.addEventListener('click', resetExperience);
+            
+            // Share button click handler
+            shareButton.addEventListener('click', function() {
+                // Simple share functionality
+                alert('Share functionality would open social sharing options');
+            });
+            
+            // ============================
+            // Helper Functions
+            // ============================
+            
+            // Get element center position relative to canvas
+            function getElementCenter(element) {
+                const rect = element.getBoundingClientRect();
+                const canvasRect = canvas.getBoundingClientRect();
+                return {
+                    x: rect.left - canvasRect.left + rect.width / 2,
+                    y: rect.top - canvasRect.top + rect.height / 2
+                };
+            }
+            
+            // Create SVG line element
+            function createSvgLine(x1, y1, x2, y2, className = 'neutral') {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                line.classList.add('path-line', className);
+                return line;
+            }
+            
+            // Draw all connection paths
+            function drawPaths() {
+                // Clear existing paths
+                pathSvg.innerHTML = '';
+                
+                const start = getElementCenter(startPoint);
+                const dest = getElementCenter(destinationPoint);
+                
+                // Draw paths from start to each DEX
+                Object.values(dexNodes).forEach(node => {
+                    const nodePos = getElementCenter(node);
+                    
+                    // Start to DEX
+                    const line1 = createSvgLine(start.x, start.y, nodePos.x, nodePos.y);
+                    pathSvg.appendChild(line1);
+                    
+                    // DEX to destination
+                    const line2 = createSvgLine(nodePos.x, nodePos.y, dest.x, dest.y);
+                    pathSvg.appendChild(line2);
+                    
+                    // Store references for animation
+                    node.pathLines = [line1, line2];
+                });
+            }
+            
+            // ============================
+            // Main Animation Function
+            // ============================
+            
+            function launchVoyage() {
+                // Disable button during animation
+                launchButton.disabled = true;
+                launchButton.textContent = 'Analyzing Routes...';
+                
+                // Reset any previous state
+                resetState();
+                
+                // Draw initial paths
+                drawPaths();
+                
+                // Create GSAP Timeline for coordinated animations
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        // Re-enable button after animation
+                        launchButton.disabled = false;
+                        launchButton.textContent = 'Scan & Launch Voyage';
+                    }
+                });
+                
+                // Phase 1: Scanner sweep
+                tl.to(scanner, {
+                    opacity: 1,
+                    duration: 0.2
+                })
+                .to(scanner, {
+                    left: '100%',
+                    duration: 2,
+                    ease: 'power2.inOut'
+                })
+                .to(scanner, {
+                    opacity: 0,
+                    duration: 0.2
+                })
+                .set(scanner, { left: '-100%' });
+                
+                // Phase 2: Analyze paths (add scanning class to nodes)
+                tl.call(() => {
+                    Object.values(dexNodes).forEach(node => {
+                        node.classList.add('scanning');
+                        node.pathLines.forEach(line => {
+                            line.classList.remove('neutral');
+                            line.classList.add('analyzing');
+                        });
+                    });
+                    launchButton.textContent = 'Calculating Optimal Route...';
+                });
+                
+                // Phase 3: Mark suboptimal paths (one by one)
+                const suboptimalNodes = [dexNodes.gmx, dexNodes.mux, dexNodes.dydx];
+                
+                suboptimalNodes.forEach((node, index) => {
+                    tl.call(() => {
+                        node.classList.remove('scanning');
+                        node.classList.add('suboptimal');
+                        node.pathLines.forEach(line => {
+                            line.classList.remove('analyzing');
+                            line.classList.add('suboptimal');
+                        });
+                    }, null, 2.5 + (index * 0.3));
+                });
+                
+                // Phase 4: Highlight optimal path
+                tl.call(() => {
+                    dexNodes.hyperliquid.classList.remove('scanning');
+                    dexNodes.hyperliquid.classList.add('optimal');
+                    dexNodes.hyperliquid.pathLines.forEach(line => {
+                        line.classList.remove('analyzing');
+                        line.classList.add('optimal');
+                    });
+                    launchButton.textContent = 'Launching Voyage...';
+                }, null, 3.5);
+                
+                // Phase 5: Spaceship journey
+                const optimalPath = calculateOptimalPath();
+                
+                // Show spaceship
+                tl.set(spaceship, {
+                    opacity: 1,
+                    x: optimalPath[0].x - 15, // Adjust for triangle center
+                    y: optimalPath[0].y - 15,
+                    rotation: 0
+                }, 4);
+                
+                // Animate spaceship along the path
+                tl.to(spaceship, {
+                    x: optimalPath[1].x - 15,
+                    y: optimalPath[1].y - 15,
+                    duration: 1.5,
+                    ease: 'power2.inOut',
+                    onUpdate: function() {
+                        // Calculate rotation to face direction of travel
+                        const progress = this.progress();
+                        const currentX = optimalPath[0].x + (optimalPath[1].x - optimalPath[0].x) * progress;
+                        const currentY = optimalPath[0].y + (optimalPath[1].y - optimalPath[0].y) * progress;
+                        const angle = Math.atan2(optimalPath[1].y - optimalPath[0].y, optimalPath[1].x - optimalPath[0].x) * 180 / Math.PI + 90;
+                        gsap.set(spaceship, { rotation: angle });
+                    }
+                }, 4.5);
+                
+                tl.to(spaceship, {
+                    x: optimalPath[2].x - 15,
+                    y: optimalPath[2].y - 15,
+                    duration: 1.5,
+                    ease: 'power2.inOut',
+                    onUpdate: function() {
+                        const angle = Math.atan2(optimalPath[2].y - optimalPath[1].y, optimalPath[2].x - optimalPath[1].x) * 180 / Math.PI + 90;
+                        gsap.set(spaceship, { rotation: angle });
+                    }
+                }, 6);
+                
+                // Phase 6: Show results modal
+                tl.call(() => {
+                    showResults();
+                    launchButton.textContent = 'Scan & Launch Voyage';
+                }, null, 8);
+            }
+            
+            // Calculate the optimal path coordinates
+            function calculateOptimalPath() {
+                const start = getElementCenter(startPoint);
+                const hl = getElementCenter(dexNodes.hyperliquid);
+                const dest = getElementCenter(destinationPoint);
+                
+                return [start, hl, dest];
+            }
+            
+            // Show results modal with animation
+            function showResults() {
+                resultsModal.classList.remove('hidden');
+                // Force reflow
+                resultsModal.offsetHeight;
+                resultsModal.classList.add('visible');
+                
+                // Update result text with actual selected values
+                const asset = document.getElementById('asset-select').value;
+                const direction = document.getElementById('direction-select').value;
+                const leverage = leverageSlider.value;
+                
+                const resultText = resultsModal.querySelector('p');
+                resultText.innerHTML = `
+                    Vooi's AI selected the optimal route for your 
+                    <span class="highlight">${asset} ${direction} ${leverage}x</span> position via 
+                    <span class="highlight">Hyperliquid Protocol</span>, 
+                    saving you an estimated 
+                    <span class="highlight">$${(Math.random() * 20 + 5).toFixed(2)}</span> 
+                    in fees and slippage compared to other venues.
+                `;
+            }
+            
+            // Reset the entire experience
+            function resetExperience() {
+                // Hide modal
+                resultsModal.classList.remove('visible');
+                setTimeout(() => {
+                    resultsModal.classList.add('hidden');
+                }, 300);
+                
+                // Reset state
+                resetState();
+            }
+            
+            // Reset animation state
+            function resetState() {
+                // Remove all classes from DEX nodes
+                Object.values(dexNodes).forEach(node => {
+                    node.classList.remove('scanning', 'suboptimal', 'optimal');
+                });
+                
+                // Clear SVG paths
+                pathSvg.innerHTML = '';
+                
+                // Hide spaceship
+                gsap.set(spaceship, { opacity: 0, x: 0, y: 0, rotation: 0 });
+                
+                // Reset scanner
+                gsap.set(scanner, { left: '-100%', opacity: 0 });
+            }
+            
+            // ============================
+            // Window Resize Handler
+            // ============================
+            
+            // Redraw paths on window resize
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    if (pathSvg.children.length > 0) {
+                        drawPaths();
+                    }
+                }, 250);
+            });
+            
+            // ============================
+            // Initial Setup Complete
+            // ============================
+            
+            console.log('Vooi Voyager initialized successfully!');
+        });
+    </script>
+</body>
+</html>
